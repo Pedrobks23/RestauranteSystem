@@ -9,14 +9,13 @@ class GarcomDAO {
   async criarGarcom(garcom) {
     try {
       const connection = await mysql.createConnection(this.dbConfig);
-      const query = 'INSERT INTO garcom (nome, telefone, email, senha, id_restaurante) VALUES (?, ?, ?, ?, ?)';
+      const query = 'INSERT INTO garcom (nome, email, senha, id_restaurante) VALUES (?, ?, ?, ?)';
       const [result] = await connection.execute(query, [
-        garcom.nome,
-        garcom.telefone,
-        garcom.email,
-        garcom.senha,
-        garcom.idRestaurante
-      ]);
+          garcom.nome,
+          garcom.email,
+          garcom.senha,
+          garcom.idRestaurante
+        ]);
       connection.end();
       return result.insertId;
     } catch (error) {
@@ -30,7 +29,7 @@ class GarcomDAO {
       const [rows] = await connection.execute('SELECT * FROM garcom');
       connection.end();
       return rows.map(row =>
-        new Garcom(row.id_garcom, row.nome, row.telefone, row.email, row.senha, row.id_restaurante)
+        new Garcom(row.id_garcom, row.nome, row.email, row.senha, row.id_restaurante)
       );
     } catch (error) {
       throw new Error('Erro ao listar garçons: ' + error.message);
@@ -55,15 +54,15 @@ class GarcomDAO {
   async atualizarGarcom(garcom) {
     try {
       const connection = await mysql.createConnection(this.dbConfig);
-      const query = 'UPDATE garcom SET nome = ?, telefone = ?, email = ?, senha = ?, id_restaurante = ? WHERE id_garcom = ?';
-      await connection.execute(query, [
-        garcom.nome,
-        garcom.telefone,
-        garcom.email,
-        garcom.senha,
-        garcom.idRestaurante,
-        garcom.id
-      ]);
+      const query = 'UPDATE garcom SET nome = ?, email = ?, senha = ?, id_restaurante = ? WHERE id_garcom = ?';
+          await connection.execute(query, [
+            garcom.nome,
+            garcom.email,
+            garcom.senha,
+            garcom.idRestaurante,
+            garcom.id
+          ]);
+
       connection.end();
     } catch (error) {
       throw new Error('Erro ao atualizar garçom: ' + error.message);

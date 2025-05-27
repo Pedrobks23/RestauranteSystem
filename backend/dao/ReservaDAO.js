@@ -51,12 +51,14 @@ class ReservaDAO {
         SELECT 
           r.id_reserva,
           r.id_cliente,
+          cli.nome AS nome_cliente,
           r.id_mesa,
           r.data_hora,
           res.nome AS nome_restaurante,
           m.numero AS numero_mesa,
           m.capacidade AS Pessoas
         FROM reserva r
+        JOIN cliente cli ON r.id_cliente = cli.id_cliente
         JOIN mesa m ON r.id_mesa = m.id_mesa
         JOIN restaurante res ON m.id_restaurante = res.id_restaurante;
       `;
@@ -66,10 +68,10 @@ class ReservaDAO {
       return rows.map(row => ({
         id: row.id_reserva,
         idCliente: row.id_cliente,
+        nomeCliente: row.nome_cliente,
         idMesa: row.id_mesa,
         dataHora: row.data_hora,
         numeroMesa: row.numero_mesa,
-        idCliente: row.id_cliente,
         nomeRestaurante: row.nome_restaurante
       }));
     } catch (error) {

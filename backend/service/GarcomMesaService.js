@@ -5,8 +5,8 @@ class GarcomMesaService {
     this.garcomMesaDAO = new GarcomMesaDAO(dbConfig);
   }
 
-  async associar(idGarcom, idMesa) {
-    return await this.garcomMesaDAO.associarGarcomMesa(idGarcom, idMesa);
+  async associar(idGarcom, idMesa, idRestaurante) {
+    return await this.garcomMesaDAO.associarGarcomMesa(idGarcom, idMesa, idRestaurante);
   }
 
   async listarMesasPorGarcom(idGarcom) {
@@ -15,6 +15,10 @@ class GarcomMesaService {
 
   async removerAssociacao(idGarcom, idMesa) {
     return await this.garcomMesaDAO.removerAssociacao(idGarcom, idMesa);
+  }
+
+  async listarTodasAssociacoes() {
+    return await this.garcomMesaDAO.listarTodasAssociacoes();
   }
 }
 

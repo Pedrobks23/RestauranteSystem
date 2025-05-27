@@ -11,6 +11,9 @@ module.exports = (dbConfig) => {
   router.put('/:id', controller.atualizar);
   router.delete('/:id', controller.deletar);
   router.patch('/:id/finalizar', controller.finalizar);
+  router.get('/relatorio/:idRestaurante', controller.listarPedidosDetalhado);
+  router.get('/mesa/:idMesa/aberto', controller.obterAbertoPorMesa);
+
 
   return router;
 };

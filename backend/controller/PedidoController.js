@@ -36,6 +36,14 @@ class PedidoController {
     }
   };
 
+  obterAbertoPorMesa = async (req,res)=>{
+    try{
+      const data = await this.pedidoService.obterPedidoAbertoMesa(req.params.idMesa);
+      if (!data) return res.status(404).json({msg:'Sem pedido aberto'});
+      res.json(data);
+    }catch(e){ res.status(500).json({error:e.message}); }
+  };
+
   atualizar = async (req, res) => {
     try {
       await this.pedidoService.atualizarPedido(req.params.id, req.body);
@@ -53,6 +61,16 @@ class PedidoController {
       res.status(500).json({ error: error.message });
     }
   };
+
+  listarPedidosDetalhado = async (req, res) => {
+  try {
+    const idRestaurante = parseInt(req.params.idRestaurante);
+    const dados = await this.pedidoService.listarPedidosComMesaEGarcom(idRestaurante);
+    res.status(200).json(dados);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
   finalizar = async (req, res) => {
   try {

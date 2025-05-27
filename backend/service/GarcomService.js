@@ -10,7 +10,6 @@ class GarcomService {
     const garcom = new Garcom(
       null,
       dados.nome,
-      dados.telefone,
       dados.email,
       dados.senha,
       dados.idRestaurante
@@ -31,7 +30,6 @@ class GarcomService {
     if (!garcom) throw new Error('Garçom não encontrado');
 
     garcom.nome = dadosAtualizados.nome;
-    garcom.telefone = dadosAtualizados.telefone;
     garcom.email = dadosAtualizados.email;
     garcom.senha = dadosAtualizados.senha;
     garcom.idRestaurante = dadosAtualizados.idRestaurante;

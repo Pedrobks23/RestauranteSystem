@@ -1,7 +1,8 @@
 class GarcomMesa {
-  constructor(idGarcom, idMesa) {
+  constructor(idGarcom, idMesa, idRestaurante) {
     this.idGarcom = idGarcom;
     this.idMesa = idMesa;
+    this.idRestaurante = idRestaurante;
   }
 }
 

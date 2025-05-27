@@ -44,6 +44,14 @@ class PedidoService {
     await this.pedidoDAO.deletarPedido(id);
   }
 
+  async listarPedidosComMesaEGarcom(idRestaurante) {
+  return await this.pedidoDAO.listarPedidosComMesaEGarcom(idRestaurante);
+}
+
+async obterPedidoAbertoMesa(idMesa){
+  return await this.pedidoDAO.buscarPedidoAbertoPorMesa(idMesa);
+}
+
   async finalizarPedido(id) {
   const pedido = await this.pedidoDAO.buscarPorId(id);
   if (!pedido) throw new Error('Pedido não encontrado');

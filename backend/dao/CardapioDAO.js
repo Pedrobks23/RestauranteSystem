@@ -75,6 +75,23 @@ class CardapioDAO {
       throw new Error('Erro ao deletar item do cardápio: ' + error.message);
     }
   }
+
+  async listarItensPorRestaurante(idRestaurante) {
+  try {
+    const connection = await mysql.createConnection(this.dbConfig);
+    const [rows] = await connection.execute(
+      'SELECT id_item, nome, preco FROM cardapio WHERE id_restaurante = ?',
+      [idRestaurante]
+    );
+    connection.end();
+    return rows.map(row =>
+      new Cardapio(row.id_item, row.nome, row.preco, idRestaurante)
+    );
+  } catch (error) {
+    throw new Error('Erro ao listar cardápio por restaurante: ' + error.message);
+  }
+}
+
 }
 
 module.exports = CardapioDAO;

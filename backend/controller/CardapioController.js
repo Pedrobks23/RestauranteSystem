@@ -53,6 +53,17 @@ class CardapioController {
       res.status(500).json({ error: error.message });
     }
   };
+  
+  listarPorRestaurante = async (req, res) => {
+  try {
+    const { idRestaurante } = req.params;
+    const itens = await this.cardapioService.listarItensPorRestaurante(idRestaurante);
+    res.status(200).json(itens);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 }
 
 module.exports = CardapioController;

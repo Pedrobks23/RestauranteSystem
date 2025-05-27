@@ -36,6 +36,11 @@ class CardapioService {
 
     await this.cardapioDAO.deletarItem(id);
   }
+  
+  async listarItensPorRestaurante(idRestaurante) {
+  return await this.cardapioDAO.listarItensPorRestaurante(idRestaurante);
+}
+
 }
 
 module.exports = CardapioService;

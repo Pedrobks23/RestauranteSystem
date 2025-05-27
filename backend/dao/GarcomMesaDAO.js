@@ -6,11 +6,11 @@ class GarcomMesaDAO {
     this.dbConfig = dbConfig;
   }
 
-  async associarGarcomMesa(idGarcom, idMesa) {
+  async associarGarcomMesa(idGarcom, idMesa, idRestaurante) {
     try {
       const connection = await mysql.createConnection(this.dbConfig);
-      const query = 'INSERT INTO garcom_mesa (id_garcom, id_mesa) VALUES (?, ?)';
-      await connection.execute(query, [idGarcom, idMesa]);
+      const query = 'INSERT INTO garcom_mesa (id_garcom, id_mesa, id_restaurante) VALUES (?, ?, ?)';
+      await connection.execute(query, [idGarcom, idMesa, idRestaurante]);
       connection.end();
     } catch (error) {
       throw new Error('Erro ao associar garçom à mesa: ' + error.message);
@@ -18,18 +18,22 @@ class GarcomMesaDAO {
   }
 
   async listarMesasPorGarcom(idGarcom) {
-    try {
-      const connection = await mysql.createConnection(this.dbConfig);
-      const [rows] = await connection.execute(
-        'SELECT id_mesa FROM garcom_mesa WHERE id_garcom = ?',
-        [idGarcom]
-      );
-      connection.end();
-      return rows.map(r => r.id_mesa);
-    } catch (error) {
-      throw new Error('Erro ao listar mesas do garçom: ' + error.message);
-    }
+  try {
+    const connection = await mysql.createConnection(this.dbConfig);
+    const [rows] = await connection.execute(
+      `SELECT gm.id_mesa, m.numero 
+       FROM garcom_mesa gm
+       JOIN mesa m ON gm.id_mesa = m.id_mesa
+       WHERE gm.id_garcom = ?`,  // ✅ aqui estava faltando o WHERE
+      [idGarcom]
+    );
+    connection.end();
+    return rows;
+  } catch (error) {
+    throw new Error('Erro ao listar mesas do garçom: ' + error.message);
   }
+}
+
 
   async removerAssociacao(idGarcom, idMesa) {
     try {
@@ -41,6 +45,17 @@ class GarcomMesaDAO {
       connection.end();
     } catch (error) {
       throw new Error('Erro ao remover associação: ' + error.message);
+    }
+  }
+
+  async listarTodasAssociacoes() {
+    try {
+      const connection = await mysql.createConnection(this.dbConfig);
+      const [rows] = await connection.execute('SELECT * FROM garcom_mesa');
+      connection.end();
+      return rows;
+    } catch (error) {
+      throw new Error('Erro ao listar associações de garçom/mesa: ' + error.message);
     }
   }
 }
